@@ -1,5 +1,7 @@
 # TipLink API Example
-Create TipLink URL using API.
+Create a TipLink URL using the API.  
+An example use case would be to automatically generate 100 TipLink URLs.  
+Then print them out on paper, and distribute them.
 
 ## Docs
 [TipLink Docs](https://docs.tiplink.io/docs/getting-started/overview)
