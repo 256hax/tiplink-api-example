@@ -32,6 +32,11 @@ Number of creation TipLink URLs.
 const NUMBER_OF_TIPLINK_URL = 1; // e.g. 3: create three TipLink URLs
 ```
 
+Replace to your custom RPC URL(e.g. QuickNode).
+```
+const RPC_URL = 'https://api.devnet.solana.com';
+```
+
 ## Run
 ```
 % ts-node src/main.ts

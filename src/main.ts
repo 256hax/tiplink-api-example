@@ -18,12 +18,13 @@ const SECRET_KEY_BASE58 = 'qkT6L2d7CY3TP1idkij8UNhzwcfQJfdjvU8NMu4FKHokkPrTeXfho
 // Replace to fund SOL(not Lamports) including transaction fee what you need.
 const FUND_SOL = 0.000905;
 
-// Replace to your custom RPC URL(e.g. QuickNode).
-// const connection = new Connection('https://api.mainnet-beta.solana.com', 'confirmed');
-const connection = new Connection(clusterApiUrl('devnet'), 'confirmed');
-
 // Number of creation TipLink URLs.
 const NUMBER_OF_TIPLINK_URL = 1; // e.g. 3: create three TipLink URLs
+
+// Replace to your custom RPC URL(e.g. QuickNode).
+const RPC_URL = 'https://api.devnet.solana.com';
+// const RPC_URL = 'https://api.mainnet-beta.solana.com';
+const connection = new Connection(RPC_URL, 'confirmed');
 
 const ReadMyKeypair = async () => {
   const sourceKeypair = Keypair.fromSecretKey(bs58.decode(SECRET_KEY_BASE58));
