@@ -10,6 +10,7 @@ import {
   LAMPORTS_PER_SOL,
 } from '@solana/web3.js';
 import { TipLink } from '@tiplink/api';
+import { sleep } from './sleep';
 
 // Replace to your wallet private key. DO NOT SHARE PRIVATE KEY.
 const SECRET_KEY_BASE58 = 'qkT6L2d7CY3TP1idkij8UNhzwcfQJfdjvU8NMu4FKHokkPrTeXfhooeeqUsQr5rL8rhZrcroMr4T2CFxanvezgQ';
@@ -19,9 +20,12 @@ const FUND_SOL = 0.000905;
 
 // Replace to your custom RPC URL(e.g. QuickNode).
 // const connection = new Connection('https://api.mainnet-beta.solana.com', 'confirmed');
-const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
+const connection = new Connection(clusterApiUrl('devnet'), 'confirmed');
 
-const createAndFundKeypair = async () => {
+// Number of creation TipLink URLs.
+const NUMBER_OF_TIPLINK_URL = 1; // e.g. 3: create three TipLink URLs
+
+const ReadMyKeypair = async () => {
   const sourceKeypair = Keypair.fromSecretKey(bs58.decode(SECRET_KEY_BASE58));
   return sourceKeypair;
 }
@@ -32,7 +36,7 @@ const fundTipLink = async (sourceKeypair: Keypair, destinationTipLink: TipLink) 
    */
   const isValidAddress = await PublicKey.isOnCurve(destinationTipLink.keypair.publicKey);
   if (!isValidAddress) {
-    throw "Invalid TipLink";
+    throw 'Invalid TipLink';
   }
 
   let transaction = new Transaction();
@@ -49,7 +53,7 @@ const fundTipLink = async (sourceKeypair: Keypair, destinationTipLink: TipLink) 
     connection,
     transaction,
     [sourceKeypair],
-    { commitment: "confirmed" }
+    { commitment: 'confirmed' }
   );
   if (transactionSignature === null) {
     throw "Unable to fund TipLink's public key";
@@ -58,12 +62,17 @@ const fundTipLink = async (sourceKeypair: Keypair, destinationTipLink: TipLink) 
 };
 
 const createAndFundTipLink = async () => {
-  const sourceKeypair = await createAndFundKeypair();
-  const destinationTipLink = await TipLink.create();
-  await fundTipLink(sourceKeypair, destinationTipLink);
+  const sourceKeypair = await ReadMyKeypair();
 
-  // TipLin available for Mainnet-beta
-  console.log(destinationTipLink.url.toString());
+  for (let i = 0; i < NUMBER_OF_TIPLINK_URL; i++) {
+    const destinationTipLink = await TipLink.create();
+    await fundTipLink(sourceKeypair, destinationTipLink);
+
+    // TipLink available for Mainnet-beta.
+    console.log(destinationTipLink.url.toString());
+
+    sleep(500);
+  }
 };
 
 createAndFundTipLink();

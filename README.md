@@ -27,7 +27,15 @@ Replace to fund SOL(not Lamports) including transaction fee what you need.
 const FUND_SOL = 0.000905;
 ```
 
+Number of creation TipLink URLs.
+```
+const NUMBER_OF_TIPLINK_URL = 1; // e.g. 3: create three TipLink URLs
+```
+
 ## Run
 ```
 % ts-node src/main.ts
 ```
+
+## Note
+TipLink URL available for Mainnet-beta.
